@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.aop.aspectj.annotation.AspectJProxyFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.*;
+import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
@@ -40,7 +41,7 @@ public class RESTPluginHandlerService  {
 			for (Object plugin : springControllers.values()) {
 				try {
 					Object proxy;
-					Class<?> restClass = plugin.getClass();
+					Class<?> restClass = ClassUtils.getUserClass(plugin);
 					if (!aspects.isEmpty()) {
 						logger.debug("rest class "+restClass+" will be proxied with aspects");
 						AspectJProxyFactory factory = new AspectJProxyFactory(plugin);
